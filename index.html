@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotes</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+   <main>
+    <div id="blue-box">
+
+    </div>
+    <div id="quotes-sec">
+
+
+        <p id="para-on">Quotes</p>
+          <div id="author">
+            author
+          </div>
+
+       <img id="tweetme" src="twitter.png" alt="">
+       
+        
+        <button id="btn">New Quotes</button>
+    </div>
+   </main>
+
+    <script>
+    
+    const api  = "https://type.fit/api/Quotes";
+
+    const quotes = document.getElementById("para-on");
+    const author = document.getElementById("author");
+    const  button = document.getElementById("btn");
+    const tweetme = document.getElementById("tweetme");
+
+        let randomNum = "";
+        let jsonData = "";
+
+      const getRandomNum = () => {
+        const rnum = Math.floor(Math.random()*15);
+        return rnum;
+      }
+
+        const getQuotes = async () => {
+          const data = await fetch(api);
+           jsonData = await data.json();
+           console.log(jsonData);
+           randomNum = jsonData[getRandomNum()];
+           quotes.innerText = `${randomNum.text}`;
+            author.innerText = `By-${randomNum.author}`;
+        }
+ 
+       const postTweet = () => {
+        console.log(randomNum);
+          let tweetpost = `https://twitter.com/intent/tweet?text= ${randomNum.text} By-${randomNum.author}`;
+          window.open(tweetpost);
+       }
+
+        tweetme.addEventListener("click",postTweet);
+
+
+        getQuotes();
+       
+
+        button.addEventListener("click",getQuotes);
+
+    </script>
+    
+</body>
+</html>
